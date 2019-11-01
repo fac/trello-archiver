@@ -1,0 +1,8 @@
+---
+trello:
+  list_id: "<LIST ID>"
+gdoc:
+  spreadsheet_id: '<GOOGLE DOC SPREADSHEET ID>'
+sprint:
+  length: 2
+  starts: monday

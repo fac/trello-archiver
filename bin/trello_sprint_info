@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require_relative '../lib/trello_sprint_info'
+
+@options = {
+  writer: :console,
+  sprint: {}
+}
+
+OptionParser.new do |opts|
+  opts.banner = "Record completed task from a sprint in google docs"
+  opts.on('--[no-]gdoc', 'output to google docs') do
+    @options[:writer] = :gdoc
+  end
+  opts.on('-p', '--previous [PREVIOUS]', 'number of sprints to go back') do |previous|
+    @options[:sprint][:previous] = previous.to_i
+  end
+  opts.on('-l', '--length [LENGTH]', 'length of sprint') do |length|
+    @options[:sprint][:length] = length.to_i
+  end
+end.parse!
+
+TrelloSprintInfo.run(@options)
