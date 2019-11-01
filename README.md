@@ -4,7 +4,7 @@ Tool to archive trello column(s) to google docs for historical records
 
 ## Setup
 
-## trello_sprint.yml
+### trello_sprint.yml
 
 Make a copy og `trello_sprint.yml.org` to `trello_sprint.yml`. You'll need to replace the list_id with the column you wish to pull from Trello.
 
@@ -21,6 +21,12 @@ Save these to a file: `~/.trello_auth_sprint_info.yml` as follows:
 ```
 
 ### Gdoc
+
+Get the `spreadsheet_id` field of your spreadsheet and add it to relevant field in the `trello_sprint.yml` file.
+
+Talk to one of the existing devs to get a copy of their `~/.gdoc_credentials.json`.
+
+Run the tool in GDoc mode (See below).
 
 The authentication process will save the files you need the first time you run it, just follow the instructions in the console.
 
