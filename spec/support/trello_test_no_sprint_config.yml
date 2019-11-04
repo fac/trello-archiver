@@ -1,0 +1,9 @@
+
+---
+trello:
+  list_id: "list id"
+  blocked_column_id: "blocked id"
+  started_column_id: "started id"
+gdoc:
+  # TEST SPREADSHEET
+  spreadsheet_id: "spreadsheet id"

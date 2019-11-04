@@ -1,6 +1,8 @@
 ---
 trello:
   list_id: "<LIST ID>"
+  blocked_column_id: "<BLOCKED COLUMN ID>"
+  started_column_id: "<STARTED COLUMN ID>"
 gdoc:
   spreadsheet_id: '<GOOGLE DOC SPREADSHEET ID>'
 sprint:

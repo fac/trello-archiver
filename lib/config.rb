@@ -1,5 +1,6 @@
 class Config
   attr_reader :trello, :gdoc, :sprint
+
   def initialize(path = nil)
     if path.nil?
       path = File.join(Dir.pwd, "trello_sprint.yml")
@@ -18,10 +19,12 @@ class Config
   end
 
   class Trello
-    attr_reader :list_id
+    attr_reader :list_id, :blocked_column_id, :started_column_id
 
     def initialize(config)
       @list_id = config.fetch("list_id")
+      @blocked_column_id = config.fetch("blocked_column_id")
+      @started_column_id = config.fetch("started_column_id")
     end
   end
 
