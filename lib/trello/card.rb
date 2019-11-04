@@ -1,11 +1,9 @@
 module Trello
   class Card
-    # TODO: we need to remove the hard coded column names and ID from this file
-    CELEBRATE_COLUMN = "5cd94e903faf6a1966e484ee"
-
-    def initialize(data, api)
+    def initialize(data, api, config)
       @data = data
       @api = api
+      @config = config
     end
 
     def name
@@ -37,8 +35,8 @@ module Trello
       return @blocked_duration unless @blocked_duration.nil?
       card_activity = @api.card_activity(short_link).reverse
       blocked_activity = card_activity.select do |card|
-        card.dig("data", "listAfter", "id") == "5badecd5e8bdbe636f166e6f" ||
-          card.dig("data", "listBefore", "id") == "5badecd5e8bdbe636f166e6f"
+        card.dig("data", "listAfter", "id") == blocked_column ||
+          card.dig("data", "listBefore", "id") == blocked_column
       end
       total_time_blocked = 0
       blocked_activity.each_cons(2) do |first_card, last_card|
@@ -54,9 +52,9 @@ module Trello
       card_activity = @api.card_activity(short_link).reverse
       entered_in_progress = card_activity.detect do |activity|
         (activity.fetch("type") == "createCard" &&
-          activity.dig("data", "list", "id") == "5badecd74057996583be2fdd") ||
+          activity.dig("data", "list", "id") == started_column) ||
         (activity.fetch("type") == "updateCard" &&
-          activity.dig("data", "listAfter", "id") == "5badecd74057996583be2fdd")
+          activity.dig("data", "listAfter", "id") == started_column)
       end
       return nil if entered_in_progress.nil?
       DateTime.parse(entered_in_progress.fetch("date", "2019-01-01"))
@@ -67,12 +65,12 @@ module Trello
       card_activity = @api.card_activity(short_link)
       last_celebrated_at = card_activity.detect do |activity|
         activity.fetch("type") == "updateCard" &&
-          activity.dig("data", "listAfter", "id") == CELEBRATE_COLUMN
+          activity.dig("data", "listAfter", "id") == celebrate_column
       end
       if last_celebrated_at.nil?
         last_celebrated_at = card_activity.detect do |activity|
           activity.fetch("type") == "createCard" &&
-            activity.dig("data", "list", "id") == CELEBRATE_COLUMN
+            activity.dig("data", "list", "id") == celebrate_column
         end
         return DateTime.now if last_celebrated_at.nil?
         return @completed_at = DateTime.parse(last_celebrated_at.fetch("date", "2019-01-01"))
@@ -88,5 +86,20 @@ module Trello
       return 1 if duration == 0
       duration
     end
+
+    private
+
+    def celebrate_column
+      @config.list_id
+    end
+
+    def blocked_column
+      @config.blocked_column_id
+    end
+
+    def started_column
+      @config.started_column_id
+    end
+
   end
 end

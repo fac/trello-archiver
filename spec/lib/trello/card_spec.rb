@@ -20,12 +20,19 @@ describe Trello::Card do
       "url"=>"https://trello.com/c/F3Sj1lcw/239-stripe-auto-reconciliation-investigation"
     }
   end
+  let(:config) do
+    Config::Trello.new({
+      "list_id" => "abc1234",
+      "blocked_column_id" => "1234abcde",
+      "started_column_id" => "a1b2c3d4"
+    })
+  end
 
   context "when getting the started at date" do
     context "and the card was created in progress" do
-      let(:trello_api) { FakeTrelloApi.new(FakeTrelloApi.card_activity_created_in_progress) }
+      let(:trello_api) { FakeTrelloApi.new(FakeTrelloApi.card_activity_created_in_progress(config), config) }
 
-      subject(:card) { Trello::Card.new(card_data, trello_api) }
+      subject(:card) { Trello::Card.new(card_data, trello_api, config) }
 
       it "returns the date the card was created in progress" do
         expect(card.started_at).to eql DateTime.parse("2019-02-21T10:00:12.682Z")
@@ -34,9 +41,9 @@ describe Trello::Card do
   end
 
   context "when getting the duration the card was blocked for" do
-		let(:trello_api) { FakeTrelloApi.new(FakeTrelloApi.card_activity_blocked_multipule) }
+		let(:trello_api) { FakeTrelloApi.new(FakeTrelloApi.card_activity_blocked_multiple(config), config) }
 
-		subject(:card) { Trello::Card.new(card_data, trello_api) }
+		subject(:card) { Trello::Card.new(card_data, trello_api, config) }
 
 		it "returns the date the card was created in progress" do
 			expect(card.blocked_duration).to eql 9
@@ -45,9 +52,9 @@ describe Trello::Card do
 
   context "when calculating the card duration" do
     context "and the card was created in in progress" do
-      let(:trello_api) { FakeTrelloApi.new(FakeTrelloApi.card_activity_created_in_progress) }
+      let(:trello_api) { FakeTrelloApi.new(FakeTrelloApi.card_activity_created_in_progress(config), config) }
 
-      subject(:card) { Trello::Card.new(card_data, trello_api) }
+      subject(:card) { Trello::Card.new(card_data, trello_api, config) }
 
       it "calculates the date from when the card was created" do
         duration = card.duration
@@ -57,9 +64,9 @@ describe Trello::Card do
     end
 
     context "and the card was created in planned" do
-      let(:trello_api) { FakeTrelloApi.new(FakeTrelloApi.card_activity_created_in_planned) }
+      let(:trello_api) { FakeTrelloApi.new(FakeTrelloApi.card_activity_created_in_planned(config), config) }
 
-      subject(:card) { Trello::Card.new(card_data, trello_api) }
+      subject(:card) { Trello::Card.new(card_data, trello_api, config) }
 
       it "calculates the duration from when the card entered planned" do
         duration = card.duration
@@ -69,9 +76,9 @@ describe Trello::Card do
     end
 
     context "and the card was created in celebrate" do
-      let(:trello_api) { FakeTrelloApi.new(FakeTrelloApi.card_activity_created_in_celebrate) }
+      let(:trello_api) { FakeTrelloApi.new(FakeTrelloApi.card_activity_created_in_celebrate(config), config) }
 
-      subject(:card) { Trello::Card.new(card_data, trello_api) }
+      subject(:card) { Trello::Card.new(card_data, trello_api, config) }
 
       it "returns a duration of 1" do
         duration = card.duration
@@ -81,9 +88,9 @@ describe Trello::Card do
     end
 
     context "and the card was never in progress" do
-      let(:trello_api) { FakeTrelloApi.new(FakeTrelloApi.card_activity_was_never_in_progress) }
+      let(:trello_api) { FakeTrelloApi.new(FakeTrelloApi.card_activity_was_never_in_progress(config), config) }
 
-      subject(:card) { Trello::Card.new(card_data, trello_api) }
+      subject(:card) { Trello::Card.new(card_data, trello_api, config) }
 
       it "returns a duration of 1" do
         duration = card.duration
@@ -93,9 +100,9 @@ describe Trello::Card do
     end
 
     context "and the card was started and ended on the same day" do
-      let(:trello_api) { FakeTrelloApi.new(FakeTrelloApi.card_started_and_finished_on_same_day) }
+      let(:trello_api) { FakeTrelloApi.new(FakeTrelloApi.card_started_and_finished_on_same_day(config), config) }
 
-      subject(:card) { Trello::Card.new(card_data, trello_api) }
+      subject(:card) { Trello::Card.new(card_data, trello_api, config) }
 
       it "returns a duration of 1" do
         duration = card.duration

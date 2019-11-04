@@ -16,7 +16,7 @@ module Trello
       return @cards unless @cards.nil?
 
       cards = fetch("/lists/#{@config.list_id}/cards")
-      @cards = cards.map{|card| Card.new(card, self) }
+      @cards = cards.map{|card| Card.new(card, self, @config) }
     end
 
     def card_activity(short_link)
