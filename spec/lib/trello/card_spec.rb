@@ -40,14 +40,58 @@ describe Trello::Card do
     end
   end
 
+  context "when getting the completed at date" do
+    context "and the card was completed in progress" do
+      let(:trello_api) { FakeTrelloApi.new(FakeTrelloApi.card_activity_created_in_progress(config), config) }
+
+      subject(:card) { Trello::Card.new(card_data, trello_api, config) }
+
+      it "returns the date the card was created in progress" do
+        expect(card.completed_at).to eql DateTime.parse("2019-02-26T14:24:54.500Z")
+      end
+    end
+
+    context "and the card was completed in planned" do
+      let(:trello_api) { FakeTrelloApi.new(FakeTrelloApi.card_activity_created_in_planned(config), config) }
+
+      subject(:card) { Trello::Card.new(card_data, trello_api, config) }
+
+      it "returns the date the card was created in progress" do
+        expect(card.completed_at).to eql DateTime.parse("2019-02-26T14:24:54.500Z")
+      end
+    end
+
+    context "and the card was completed in celebrate" do
+      let(:trello_api) { FakeTrelloApi.new(FakeTrelloApi.card_activity_created_in_celebrate(config), config) }
+
+      subject(:card) { Trello::Card.new(card_data, trello_api, config) }
+
+      it "returns the date the card was created in progress" do
+        expect(card.completed_at).to eql DateTime.parse("2019-02-21T10:00:12.682Z")
+      end
+    end
+  end
+
   context "when getting the duration the card was blocked for" do
-		let(:trello_api) { FakeTrelloApi.new(FakeTrelloApi.card_activity_blocked_multiple(config), config) }
+    context "when there was only one blocked duration" do
+      let(:trello_api) { FakeTrelloApi.new(FakeTrelloApi.card_activity_blocked_single(config), config) }
 
-		subject(:card) { Trello::Card.new(card_data, trello_api, config) }
+      subject(:card) { Trello::Card.new(card_data, trello_api, config) }
 
-		it "returns the date the card was created in progress" do
-			expect(card.blocked_duration).to eql 9
-		end
+      it "calculates the duration of time in blocked column" do
+        expect(card.blocked_duration).to eql 9
+      end
+    end
+
+    context "when there were multiple blocked durations" do
+      let(:trello_api) { FakeTrelloApi.new(FakeTrelloApi.card_activity_blocked_multiple(config), config) }
+
+      subject(:card) { Trello::Card.new(card_data, trello_api, config) }
+
+      it "calculates the duration of time in blocked column" do
+        expect(card.blocked_duration).to eql 11
+      end
+    end
   end
 
   context "when calculating the card duration" do

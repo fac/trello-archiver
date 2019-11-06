@@ -1,10 +1,18 @@
 require 'spec_helper'
 
 describe Processors::CompletedTasks do
+  let(:config) do
+    Config::Trello.new({
+      "list_id" => "abc1234",
+      "blocked_column_id" => "1234abcde",
+      "started_column_id" => "a1b2c3d4"
+    })
+  end
+
   it "creates the output lines for the card" do
     sprint_date = "24th Jan - 23 Feb"
     writer = FakeWriter.new
-    trello_api = FakeTrelloApi.new
+    trello_api = FakeTrelloApi.new(config)
 
     completed_tasks = described_class.new(sprint_date, writer, trello_api)
 

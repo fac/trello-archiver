@@ -33,8 +33,7 @@ module Trello
     require 'pry'
     def blocked_duration
       return @blocked_duration unless @blocked_duration.nil?
-      card_activity = @api.card_activity(short_link).reverse
-      blocked_activity = card_activity.select do |card|
+      blocked_activity = card_activity.reverse.select do |card|
         card.dig("data", "listAfter", "id") == blocked_column ||
           card.dig("data", "listBefore", "id") == blocked_column
       end
@@ -49,8 +48,7 @@ module Trello
 
     def started_at
       return @started_at unless @started_at.nil?
-      card_activity = @api.card_activity(short_link).reverse
-      entered_in_progress = card_activity.detect do |activity|
+      entered_in_progress = card_activity.reverse.detect do |activity|
         (activity.fetch("type") == "createCard" &&
           activity.dig("data", "list", "id") == started_column) ||
         (activity.fetch("type") == "updateCard" &&
@@ -62,7 +60,6 @@ module Trello
 
     def completed_at
       return @completed_at unless @completed_at.nil?
-      card_activity = @api.card_activity(short_link)
       last_celebrated_at = card_activity.detect do |activity|
         activity.fetch("type") == "updateCard" &&
           activity.dig("data", "listAfter", "id") == celebrate_column
@@ -99,6 +96,10 @@ module Trello
 
     def started_column
       @config.started_column_id
+    end
+
+    def card_activity
+      @api.card_activity(short_link)
     end
 
   end
