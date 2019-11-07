@@ -2,6 +2,8 @@
 
 Tool to archive trello column(s) to google docs for historical records
 
+Run `./bin/trello_sprint_info -h` for usage options.
+
 ## Setup
 
 ### trello_sprint.yml
@@ -41,6 +43,12 @@ To run the tool to output to the console, navigate to the project directory and 
 To run the tool to output to gdocs, run:
 
 `./bin/trello_sprint_info  --length 2 --gdoc`
+
+## Specify config file
+
+To use a config file that is not the default, use the `-c` command line switch.
+
+`./bin/trello_sprint_info -c ./trello_sprint.yml`
 
 ## Developer Setup
 

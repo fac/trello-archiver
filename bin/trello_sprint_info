@@ -19,6 +19,13 @@ OptionParser.new do |opts|
   opts.on('-l', '--length [LENGTH]', 'length of sprint') do |length|
     @options[:sprint][:length] = length.to_i
   end
+  opts.on('-c', '--config [CONFIG PATH]', 'config file path') do |config_path|
+    @options[:config] = config_path
+  end
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
 end.parse!
 
 TrelloSprintInfo.run(@options)

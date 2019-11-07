@@ -12,7 +12,7 @@ class TrelloSprintInfo
   end
 
   def self.run(opts)
-    config = Config.new
+    config = Config.new(opts[:config])
     trello_api = Trello::Api.new(Trello::Auth.new, config.trello)
     writer = case opts[:writer]
     when :gdoc
