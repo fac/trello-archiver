@@ -17,7 +17,7 @@ describe Processors::CompletedTasks do
     completed_tasks = described_class.new(sprint_date, writer, trello_api)
 
     lines = completed_tasks.lines
-    expect(lines.length).to eql 1
+    expect(lines.length).to eql 2
     expect(lines.first.data[0]).to eql "Stripe auto-reconciliation investigation"
     expect(lines.first.data[1]).to eql "Colin Gemmell"
     expect(lines.first.data[2]).to eql "Investigation"

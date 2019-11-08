@@ -13,8 +13,8 @@ module Processors
       @trello_api = trello_api
     end
 
-    def write
-      lines = filter_unplanned(@cards).map do |card|
+    def lines
+      filter_unplanned(@cards).map do |card|
         Line.new(KEY_COLUMN, card.url, [
           card.last_activity_date.strftime("%Y-%m-%d"),
           card.name,
@@ -23,7 +23,9 @@ module Processors
           card.url
         ])
       end
+    end
 
+    def write
       @writer.write(NAME, lines, headers: HEADERS)
     end
 

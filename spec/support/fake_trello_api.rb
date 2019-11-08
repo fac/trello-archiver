@@ -344,6 +344,23 @@ class FakeTrelloApi
         "shortLink"=>"F3Sj1lcw",
         "shortUrl"=>"https://trello.com/c/F3Sj1lcw",
         "url"=>"https://trello.com/c/F3Sj1lcw/239-stripe-auto-reconciliation-investigation"
+      },
+      {
+        "dateLastActivity"=>"2019-10-31T12:19:34.376Z",
+        "name"=>"[1d] send_new_invoice_emails Recurring Invoice sync issue",
+        "shortLink"=>"Ks018zJG",
+        "idMembers"=> ["5abe0419bd770fe51d9bd476", "5d9b05bc19093439cd980ba3"],
+        "labels"=> [
+          {
+            "id"=>"5c053846c1c0050bb90329a6",
+            "idBoard"=>"5bade24c8194ba1e9b88bbe6",
+            "name"=>"Unplanned",
+            "color"=>"blue"
+          }
+        ],
+        "shortUrl"=>"https://trello.com/c/Ks018zJG",
+        "subscribed"=>true,
+        "url"=>"https://trello.com/c/Ks018zJG/642-1d-sendnewinvoiceemails-recurring-invoice-sync-issue"
       }
     ].map{|card| Trello::Card.new(card, self, @config) }
   end
