@@ -6,8 +6,7 @@ module Processors
 
     include CardCategories
 
-    def initialize(sprint_date, writer, trello_api)
-      @sprint_date = sprint_date
+    def initialize(_, writer, trello_api)
       @cards = trello_api.cards
       @writer = writer
       @trello_api = trello_api

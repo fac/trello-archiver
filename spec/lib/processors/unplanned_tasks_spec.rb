@@ -10,11 +10,10 @@ describe Processors::UnplannedTasks do
   end
 
   it "creates the output lines for the card" do
-    sprint_date = "24th Jan - 23 Feb"
     writer = FakeWriter.new
     trello_api = FakeTrelloApi.new(config)
 
-    unplanned_tasks = described_class.new(sprint_date, writer, trello_api)
+    unplanned_tasks = described_class.new(nil, writer, trello_api)
 
     lines = unplanned_tasks.lines
     expect(lines.length).to eql 1
