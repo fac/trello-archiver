@@ -8,11 +8,13 @@ Run `./bin/trello_sprint_info -h` for usage options.
 
 ### trello_sprint.yml
 
-Make a copy og `trello_sprint.yml.org` to `trello_sprint.yml`. You'll need to replace the list_id with the column you wish to pull from Trello.
+Make a copy of `trello_sprint.yml.org` to `trello_sprint.yml`. You'll need to replace the list_id with the column you wish to pull from Trello.
 
 ### Trello
 
 You'll need to set up a Trello API key and oauth secret. You can find the instructions [here](https://trello.com/app-key)
+
+You can automatically do this by running: `./bin/trello_sprint_info -t` and following the on-screen instructions.
 
 Save these to a file: `~/.trello_auth_sprint_info.yml` as follows:
 

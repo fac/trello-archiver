@@ -22,6 +22,10 @@ OptionParser.new do |opts|
   opts.on('-c', '--config [CONFIG PATH]', 'config file path') do |config_path|
     @options[:config] = config_path
   end
+  opts.on('-t', '--trello-auth', 'configure trello auth') do |config_path|
+    Trello::Auth.configure_trello_authentication
+    exit
+  end
   opts.on_tail("-h", "--help", "Show this message") do
     puts opts
     exit
