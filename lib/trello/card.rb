@@ -30,7 +30,6 @@ module Trello
       @last_activity ||= Date.parse(@data.fetch("dateLastActivity", "2019-01-01"))
     end
 
-    require 'pry'
     def blocked_duration
       return @blocked_duration unless @blocked_duration.nil?
       blocked_activity = card_activity.reverse.select do |card|
